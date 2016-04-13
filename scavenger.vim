@@ -6,9 +6,6 @@ call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
 highlight TrailingSpaces ctermbg=red guibg=red
 call matchadd('TrailingSpaces', '\s\+$')
 
-" squash multiple empty lines to one line
-" autocmd BufWritePre * !cat -s <sfile>
-
 if has('python')
     function! CleanUp()
         python import sys
@@ -28,6 +25,25 @@ if has('python')
         pyfile scavenger.py
     endfunc
 
+    function! IsMultipleEmptyLinesExist()
+        python import sys
+        python sys.argv = ['is_multiple_empty_lines_exist']
+        pyfile scavenger.py
+
+        if l:multiple_empty_lines_exist
+            echo "There are multiple empty lines."
+        endif
+    endfunc
+
+    function! IsTrailingSpacesExist()
+        python import sys
+        python sys.argv = ['is_trailing_spaces_exist']
+        pyfile scavenger.py
+
+        if l:trailing_spaces_exist
+            echo "There are trailing spaces."
+        endif
+    endfunc
 elseif has('python3')
     pyfile3 scavenger.py3
 endif
