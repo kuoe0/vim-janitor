@@ -1,5 +1,6 @@
-*vim-scavenger.txt* Multiple empty lines and trailing white spaces cleaner for
-Vim.
+*vim-scavenger.txt*
+
+Multiple empty lines and trailing white spaces cleaner for Vim.
 
              _
             (_)
