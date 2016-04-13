@@ -1,4 +1,3 @@
-
 " highlight the empty line more than one
 highlight MultipleEmptyLines ctermbg=red guibg=red
 call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
@@ -28,9 +27,6 @@ if has('python')
         python sys.argv = ['clean_up_trailing_spaces']
         pyfile scavenger.py
     endfunc
-
-	let matchResult = getmatches()
-	echo matchResult
 
 elseif has('python3')
     pyfile3 scavenger.py3

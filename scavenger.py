@@ -16,22 +16,24 @@ import re
 
 def clean_up_multiple_empty_lines():
     old_buffer = vim.current.buffer
-    new_buffer = []
+    new_buffer = old_buffer[0:1]
 
-    # Default to true to delete empty line at beginnig.
-    last_line_is_empty = True
-    for line in old_buffer:
-        if not len(line):
-            if last_line_is_empty:
-                continue
-            last_line_is_empty = True
-        else:
-            last_line_is_empty = False
-        new_buffer.append(line)
-    else:
-        # Remove empty line at end
-        if last_line_is_empty:
-            new_buffer = new_buffer[:-1] 
+    for idx in range(len(old_buffer))[1:]:
+        if len(old_buffer[idx]):
+            # not the empty line
+            new_buffer.append(old_buffer[idx])
+        if not len(old_buffer[idx]) and old_buffer[idx] != old_buffer[idx - 1]:
+            # the first empty line
+            new_buffer.append(old_buffer[idx])
+
+    # Remove empty line at begin
+    if not len(new_buffer[0]):
+        new_buffer = new_buffer[1:]
+
+    # Remove empty line at end
+    if not len(new_buffer[-1]):
+        new_buffer = new_buffer[:-1]
+
     vim.current.buffer[:] = new_buffer
 
 def clean_up_trailing_spaces():
