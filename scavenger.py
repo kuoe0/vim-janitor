@@ -14,17 +14,29 @@ import vim
 import sys
 import re
 
-def clean_up_multiple_empty_lines():
+def restore_cursor_decorator(action):
+    current_cursor_position = vim.current.window.cursor
+    def wrapper_function():
+        new_cursor_position = action(*current_cursor_position)
+        vim.current.window.cursor = new_cursor_position
+    return wrapper_function
+
+@restore_cursor_decorator
+def clean_up_multiple_empty_lines(cursor_row, cursor_col):
+
     old_buffer = vim.current.buffer
     new_buffer = old_buffer[0:1]
+    removed_line_before_cursor_row = 0
 
     for idx in range(len(old_buffer))[1:]:
         if len(old_buffer[idx]):
             # not the empty line
             new_buffer.append(old_buffer[idx])
-        if not len(old_buffer[idx]) and old_buffer[idx] != old_buffer[idx - 1]:
+        elif not len(old_buffer[idx]) and old_buffer[idx] != old_buffer[idx - 1]:
             # the first empty line
             new_buffer.append(old_buffer[idx])
+        else:
+            removed_line_before_cursor_row += 1
 
     # Remove empty line at begin
     if not len(new_buffer[0]):
@@ -36,14 +48,20 @@ def clean_up_multiple_empty_lines():
 
     vim.current.buffer[:] = new_buffer
 
-def clean_up_trailing_spaces():
+    return (cursor_row - removed_line_before_cursor_row, cursor_col)
+
+@restore_cursor_decorator
+def clean_up_trailing_spaces(cursor_row, cursor_col):
     old_buffer = vim.current.buffer
     new_buffer = map(lambda line: line.rstrip(), old_buffer)
     vim.current.buffer[:] = new_buffer
+    return (cursor_row, cursor_col)
 
-def clean_up():
+@restore_cursor_decorator
+def clean_up(cursor_row, cursor_col):
     clean_up_trailing_spaces()
     clean_up_multiple_empty_lines()
+    return vim.current.window.cursor
 
 def is_multiple_empty_lines_exist():
     buffer = vim.current.buffer
