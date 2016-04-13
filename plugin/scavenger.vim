@@ -1,13 +1,21 @@
 let s:plugin_path = escape(expand('<sfile>:p:h'), '\')
 
-" highlight the empty line more than one
-highlight MultipleEmptyLines ctermbg=red guibg=red
-call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
+if !exists('g:scavenger_enable_highlight')
+	let g:scavenger_enable_highlight = 1
+endif
 
 " highlight trailing space
 highlight TrailingSpaces ctermbg=red guibg=red
 call matchadd('TrailingSpaces', '\s\+$')
 
+if g:scavenger_enable_highlight
+	" highlight the empty line more than one
+	highlight MultipleEmptyLines ctermbg=red guibg=red
+	call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
+	" highlight trailing space
+	highlight TrailingSpaces ctermbg=red guibg=red
+	call matchadd('TrailingSpaces', '\s\+$')
+endif
 
 if has('python')
 
