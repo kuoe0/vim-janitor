@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Vim-scavenger by KuoE0</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Vim-scavenger</h1>
+        <p>Multiple empty lines and trailing white spaces cleaner for Vim.</p>
+
+        <p class="view"><a href="https://github.com/KuoE0/vim-scavenger">View the Project on GitHub <small>KuoE0/vim-scavenger</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/KuoE0/vim-scavenger/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/KuoE0/vim-scavenger/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/KuoE0/vim-scavenger">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="vim-scavenger" class="anchor" href="#vim-scavenger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>vim-scavenger</h1>
+
+<p>Multiple empty lines and trailing white spaces cleaner for Vim.</p>
+
+<p>Vim-scavenger supports both Vim and <a href="https://neovim.io/">Neovim</a>.</p>
+
+<h2>
+<a id="requirement" class="anchor" href="#requirement" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirement</h2>
+
+<h3>
+<a id="vim" class="anchor" href="#vim" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Vim</h3>
+
+<p>Need Python 2.x support for Vim. Check with the following command: <code>vim --version | grep "+python"</code>.</p>
+
+<h3>
+<a id="neovim" class="anchor" href="#neovim" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Neovim</h3>
+
+<p>Install <a href="https://github.com/neovim/python-client">neovim/python-client</a>. Currently, Just install the client of Python 2.x.</p>
+
+<h2>
+<a id="functions" class="anchor" href="#functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Functions</h2>
+
+<h3>
+<a id="cleanup" class="anchor" href="#cleanup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CleanUp()</h3>
+
+<p><code>:call CleanUp()</code></p>
+
+<p>Delete all multiple empty lines and trailing spaces.</p>
+
+<h3>
+<a id="cleanupmultipleemptylines" class="anchor" href="#cleanupmultipleemptylines" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CleanUpMultipleEmptyLines()</h3>
+
+<p><code>:call CleanUpMultipleEmptyLines()</code></p>
+
+<p>Delete all multiple empty lines.</p>
+
+<h3>
+<a id="cleanuptrailingspaces" class="anchor" href="#cleanuptrailingspaces" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CleanUpTrailingSpaces()</h3>
+
+<p><code>:call CleanUpTrailingSpaces()</code></p>
+
+<p>Delete all trailing spaces.</p>
+
+<h3>
+<a id="scavengerhighlightall" class="anchor" href="#scavengerhighlightall" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ScavengerHighlightAll()</h3>
+
+<p><code>:call ScavengerHighlightAll()</code></p>
+
+<p>Highlight all empty lines and trailing spaces with red color.</p>
+
+<h3>
+<a id="scavengerclearhighlight" class="anchor" href="#scavengerclearhighlight" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ScavengerClearHighlight()</h3>
+
+<p><code>:call ScavengerClearHighlight()</code></p>
+
+<p>Clear all highlight on all empty lines and trailing spaces.</p>
+
+<h3>
+<a id="scavengertogglehighlight" class="anchor" href="#scavengertogglehighlight" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ScavengerToggleHighlight()</h3>
+
+<p><code>:call ScavengerToggleHighlight()</code></p>
+
+<p>Toggle highlight.</p>
+
+<h2>
+<a id="settings" class="anchor" href="#settings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Settings</h2>
+
+<h3>
+<a id="gscavenger_enable_highlight" class="anchor" href="#gscavenger_enable_highlight" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>g:scavenger_enable_highlight</code>
+</h3>
+
+<p>Enable to highlight when open files or not .</p>
+
+<ul>
+<li>default value: <code>1</code>
+</li>
+<li>value <code>1</code>: Highlight all multiple empty lines and trailing spaces when open files.</li>
+<li>value <code>0</code>: Do not highlight multiple empty lines and trailing spaces when open files.</li>
+</ul>
+
+<h3>
+<a id="gscavenger_auto_clean_up_on_write" class="anchor" href="#gscavenger_auto_clean_up_on_write" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>g:scavenger_auto_clean_up_on_write</code>
+</h3>
+
+<p>Enable to clear multiple empty lines and trailling spaces when save files or not.</p>
+
+<ul>
+<li>default value: <code>0</code>
+</li>
+<li>value <code>1</code>: Clear multiple empty lines and trailing spaces when save files automatically.</li>
+<li>value <code>0</code>: Do not clear multiple empty lines and trailing spaces when save files automatically.</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/KuoE0">KuoE0</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
