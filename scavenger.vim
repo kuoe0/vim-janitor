@@ -44,6 +44,12 @@ if has('python')
             echo "There are trailing spaces."
         endif
     endfunc
+
+    if exists("g:auto_clean_up_when_write")
+        if g:auto_clean_up_when_write
+            autocmd BufWritePre * call CleanUp()
+        endif
+    endif
 elseif has('python3')
     pyfile3 scavenger.py3
 endif
