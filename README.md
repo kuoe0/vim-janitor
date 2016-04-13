@@ -4,6 +4,16 @@ Multiple empty lines and trailing white spaces cleaner for Vim.
 
 Vim-scavenger supports both Vim and [Neovim](https://neovim.io/).
 
+```
+       _                                                            
+      (_)                                                           
+ _   _ _ ____ ___ ___  ____ ____ _   _ ____ ____   ____  ____  ____ 
+| | | | |    (___)___)/ ___) _  | | | / _  )  _ \ / _  |/ _  )/ ___)
+ \ V /| | | | | |___ ( (__( ( | |\ V ( (/ /| | | ( ( | ( (/ /| |    
+  \_/ |_|_|_|_| (___/ \____)_||_| \_/ \____)_| |_|\_|| |\____)_|    
+                                                 (_____|            
+```
+
 ## Requirement
 
 ### Vim
@@ -28,13 +38,11 @@ Delete all multiple empty lines and trailing spaces.
 
 Delete all multiple empty lines.
 
-
 ### CleanUpTrailingSpaces()
 
 `:call CleanUpTrailingSpaces()`
 
 Delete all trailing spaces.
-
 
 ### ScavengerHighlightAll()
 
@@ -42,13 +50,11 @@ Delete all trailing spaces.
 
 Highlight all empty lines and trailing spaces with red color.
 
-
 ### ScavengerClearHighlight()
 
 `:call ScavengerClearHighlight()`
 
 Clear all highlight on all empty lines and trailing spaces.
-
 
 ### ScavengerToggleHighlight()
 
