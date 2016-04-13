@@ -36,7 +36,8 @@ def clean_up_multiple_empty_lines(cursor_row, cursor_col):
             # the first empty line
             new_buffer.append(old_buffer[idx])
         else:
-            removed_line_before_cursor_row += 1
+            if idx < cursor_row:
+                removed_line_before_cursor_row += 1
 
     # Remove empty line at begin
     if not len(new_buffer[0]):
@@ -48,7 +49,11 @@ def clean_up_multiple_empty_lines(cursor_row, cursor_col):
 
     vim.current.buffer[:] = new_buffer
 
-    return (cursor_row - removed_line_before_cursor_row, cursor_col)
+    new_cursor_row = cursor_row - removed_line_before_cursor_row
+    if new_cursor_row > len(new_buffer):
+        new_cursor_row = len(new_buffer)
+
+    return (new_cursor_row, cursor_col)
 
 @restore_cursor_decorator
 def clean_up_trailing_spaces(cursor_row, cursor_col):
