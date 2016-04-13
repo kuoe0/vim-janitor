@@ -8,13 +8,8 @@ if !exists('g:scavenger_auto_clean_up_on_write')
 	let g:scavenger_auto_clean_up_on_write = 0
 endif
 
-if g:scavenger_enable_highlight
-	" highlight the empty line more than one
-	highlight MultipleEmptyLines ctermbg=red guibg=red
-	call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
-	" highlight trailing space
-	highlight TrailingSpaces ctermbg=red guibg=red
-	call matchadd('TrailingSpaces', '\s\+$')
+if !exists('g:scavenger_is_highlight')
+	let g:scavenger_is_highlight = 0
 endif
 
 if has('python')
@@ -66,4 +61,31 @@ if has('python')
 	endif
 elseif has('python3')
     pyfile3 scavenger.py3
+endif
+
+function! ScavengerHighlightAll()
+	let g:scavenger_is_highlight = 1
+	" highlight the empty line more than one
+	highlight MultipleEmptyLines ctermbg=red guibg=red
+	call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
+	" highlight trailing space
+	highlight TrailingSpaces ctermbg=red guibg=red
+	call matchadd('TrailingSpaces', '\s\+$')
+endfunc
+
+function! ScavengerClearHighlight()
+	let g:scavenger_is_highlight = 0
+	call clearmatches()
+endfunc
+
+function! ScavengerToggleHighlight()
+	if g:scavenger_is_highlight
+		call ScavengerClearHighlight()
+	else
+		call ScavengerHighlightAll()
+	endif
+endfunc
+
+if g:scavenger_enable_highlight
+	call ScavengerHighlightAll()
 endif
