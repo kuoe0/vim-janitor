@@ -5,13 +5,13 @@ Multiple empty lines and trailing white spaces cleaner for Vim.
 Vim-scavenger supports both Vim and [Neovim](https://neovim.io/).
 
 ```
-       _                                                            
-      (_)                                                           
- _   _ _ ____ ___ ___  ____ ____ _   _ ____ ____   ____  ____  ____ 
+       _
+      (_)
+ _   _ _ ____ ___ ___  ____ ____ _   _ ____ ____   ____  ____  ____
 | | | | |    (___)___)/ ___) _  | | | / _  )  _ \ / _  |/ _  )/ ___)
- \ V /| | | | | |___ ( (__( ( | |\ V ( (/ /| | | ( ( | ( (/ /| |    
-  \_/ |_|_|_|_| (___/ \____)_||_| \_/ \____)_| |_|\_|| |\____)_|    
-                                                 (_____|            
+ \ V /| | | | | |___ ( (__( ( | |\ V ( (/ /| | | ( ( | ( (/ /| |
+  \_/ |_|_|_|_| (___/ \____)_||_| \_/ \____)_| |_|\_|| |\____)_|
+                                                 (_____|
 ```
 
 ## Requirement
@@ -26,39 +26,29 @@ Install [neovim/python-client](https://github.com/neovim/python-client). Current
 
 ## Functions
 
-### CleanUp()
-
-`:call CleanUp()`
+### `:CleanUp`
 
 Delete all multiple empty lines and trailing spaces.
 
-### CleanUpMultipleEmptyLines()
+### `:CleanUpMultipleEmptyLines`
 
-`:call CleanUpMultipleEmptyLines()`
+`:CleanUpMultipleEmptyLines`
 
 Delete all multiple empty lines.
 
-### CleanUpTrailingSpaces()
-
-`:call CleanUpTrailingSpaces()`
+### `:CleanUpTrailingSpaces`
 
 Delete all trailing spaces.
 
-### ScavengerHighlightAll()
-
-`:call ScavengerHighlightAll()`
+### `:ScavengerHighlightAll`
 
 Highlight all empty lines and trailing spaces with red color.
 
-### ScavengerClearHighlight()
-
-`:call ScavengerClearHighlight()`
+### `:ScavengerClearHighlight`
 
 Clear all highlight on all empty lines and trailing spaces.
 
-### ScavengerToggleHighlight()
-
-`:call ScavengerToggleHighlight()`
+### `:ScavengerToggleHighlight`
 
 Toggle highlight.
 
