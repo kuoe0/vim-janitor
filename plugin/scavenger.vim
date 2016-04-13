@@ -4,9 +4,9 @@ if !exists('g:scavenger_enable_highlight')
 	let g:scavenger_enable_highlight = 1
 endif
 
-" highlight trailing space
-highlight TrailingSpaces ctermbg=red guibg=red
-call matchadd('TrailingSpaces', '\s\+$')
+if !exists('g:scavenger_auto_clean_up_on_write')
+	let g:scavenger_auto_clean_up_on_write = 0
+endif
 
 if g:scavenger_enable_highlight
 	" highlight the empty line more than one
@@ -61,11 +61,9 @@ if has('python')
         endif
     endfunc
 
-    if exists("g:auto_clean_up_when_write")
-        if g:auto_clean_up_when_write
-            autocmd BufWritePre * call CleanUp()
-        endif
-    endif
+	if g:scavenger_auto_clean_up_on_write
+		autocmd BufWritePre * call CleanUp()
+	endif
 elseif has('python3')
     pyfile3 scavenger.py3
 endif
