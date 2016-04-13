@@ -85,5 +85,3 @@ def is_trailing_spaces_exist():
             vim.command("let l:trailing_spaces_exist = 1")
             return
     vim.command("let l:trailing_spaces_exist = 0")
-
-eval(sys.argv[0])()

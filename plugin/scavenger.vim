@@ -1,5 +1,19 @@
-let s:plugin_path = escape(expand('<sfile>:p:h'), '\')
+" vim:fenc=utf-8
+"
+" Copyright © 2016 KuoE0 <kuoe0.tw@gmail.com>
+"
+" Distributed under terms of the MIT license.
 
+" --------------------------------
+" Add our plugin to the path
+" --------------------------------
+python import sys
+python import vim
+python sys.path.append(vim.eval('expand("<sfile>:h")'))
+
+" --------------------------------
+" Initial variables
+" --------------------------------
 if !exists('g:scavenger_enable_highlight')
 	let g:scavenger_enable_highlight = 1
 endif
@@ -12,45 +26,37 @@ if !exists('g:scavenger_is_highlight')
 	let g:scavenger_is_highlight = 0
 endif
 
+" --------------------------------
+"  Function(s)
+" --------------------------------
 if has('python')
 
-	function! LoadPythonFile()
-		exe 'pyfile ' . escape(s:plugin_path, ' ') . '/scavenger.py'
-	endfunc
-
     function! CleanUp()
-        python import sys
-        python sys.argv = ['clean_up']
-		call LoadPythonFile()
+        python from scavenger import clean_up
+        python clean_up()
     endfunc
 
     function! CleanUpMultipleEmptyLines()
-        python import sys
-        python sys.argv = ['clean_up_multiple_empty_lines']
-		call LoadPythonFile()
+        python from scavenger import clean_up_multiple_empty_lines
+        python clean_up_multiple_empty_lines()
     endfunc
 
     function! CleanUpTrailingSpaces()
-        python import sys
-        python sys.argv = ['clean_up_trailing_spaces']
-		call LoadPythonFile()
+        python from scavenger import clean_up_trailing_spaces
+        python clean_up_trailing_spaces()
     endfunc
 
     function! IsMultipleEmptyLinesExist()
-        python import sys
-        python sys.argv = ['is_multiple_empty_lines_exist']
-		call LoadPythonFile()
-
+        python from scavenger import is_multiple_empty_lines_exist
+        python is_multiple_empty_lines_exist()
         if l:multiple_empty_lines_exist
             echo "There are multiple empty lines."
         endif
     endfunc
 
     function! IsTrailingSpacesExist()
-        python import sys
-        python sys.argv = ['is_trailing_spaces_exist']
-		call LoadPythonFile()
-
+        python from scavenger import is_trailing_spaces_exist
+        python is_trailing_spaces_exist()
         if l:trailing_spaces_exist
             echo "There are trailing spaces."
         endif
@@ -89,3 +95,14 @@ endfunc
 if g:scavenger_enable_highlight
 	call ScavengerHighlightAll()
 endif
+
+" --------------------------------
+"  Expose our commands to the user
+" --------------------------------
+
+command! CleanUp call CleanUp()
+command! CleanUpMultipleEmptyLines call CleanUpMultipleEmptyLines()
+command! CleanUpTrailingSpaces call CleanUpTrailingSpaces()
+command! ScavengerHighlightAll call ScavengerHighlightAll()
+command! ScavengerClearHighlight call ScavengerClearHighlight()
+command! ScavengerToggleHighlight call ScavengerToggleHighlight()
