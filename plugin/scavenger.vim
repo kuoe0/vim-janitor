@@ -1,3 +1,5 @@
+let s:plugin_path = escape(expand('<sfile>:p:h'), '\')
+
 " highlight the empty line more than one
 highlight MultipleEmptyLines ctermbg=red guibg=red
 call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
@@ -6,29 +8,35 @@ call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
 highlight TrailingSpaces ctermbg=red guibg=red
 call matchadd('TrailingSpaces', '\s\+$')
 
+
 if has('python')
+
+	function! LoadPythonFile()
+		exe 'pyfile ' . escape(s:plugin_path, ' ') . '/scavenger.py'
+	endfunc
+
     function! CleanUp()
         python import sys
         python sys.argv = ['clean_up']
-        pyfile scavenger.py
+		call LoadPythonFile()
     endfunc
 
     function! CleanUpMultipleEmptyLines()
         python import sys
         python sys.argv = ['clean_up_multiple_empty_lines']
-        pyfile scavenger.py
+		call LoadPythonFile()
     endfunc
 
     function! CleanUpTrailingSpaces()
         python import sys
         python sys.argv = ['clean_up_trailing_spaces']
-        pyfile scavenger.py
+		call LoadPythonFile()
     endfunc
 
     function! IsMultipleEmptyLinesExist()
         python import sys
         python sys.argv = ['is_multiple_empty_lines_exist']
-        pyfile scavenger.py
+		call LoadPythonFile()
 
         if l:multiple_empty_lines_exist
             echo "There are multiple empty lines."
@@ -38,7 +46,7 @@ if has('python')
     function! IsTrailingSpacesExist()
         python import sys
         python sys.argv = ['is_trailing_spaces_exist']
-        pyfile scavenger.py
+		call LoadPythonFile()
 
         if l:trailing_spaces_exist
             echo "There are trailing spaces."
