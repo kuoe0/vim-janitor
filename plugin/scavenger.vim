@@ -22,14 +22,8 @@ if !exists('g:scavenger_auto_clean_up_on_write')
 	let g:scavenger_auto_clean_up_on_write = 0
 endif
 
-if !exists('g:scavenger_auto_clean_trailing_spaces_only_changed')
-	let g:scavenger_auto_clean_trailing_spaces_only_changed = 1
-    " option | mean
-    " -------|-----
-    " 0      | Always clean up trailing spaces
-    " 1      | Only clean up trailing spaces on changed part in a git repo; for non-git repo, ask user.
-    " 2      | Like option 1. BUT for non-git repo, clean up all trailing spaces.
-    " 3      | Like option 1. BUT for non-git repo, DO NOT clean up any trailing space.
+if !exists('g:scavenger_auto_clean_up_trailing_spaces_only_added')
+	let g:scavenger_auto_clean_up_trailing_spaces_only_added = 0
 endif
 
 if !exists('g:scavenger_is_highlight')
@@ -44,7 +38,6 @@ if has('python')
     function! CleanUp()
         python from scavenger import clean_up
         python clean_up()
-        write
     endfunc
 
     function! CleanUpMultipleEmptyLines()
@@ -79,7 +72,7 @@ if has('python')
     endfunc
 
 	if g:scavenger_auto_clean_up_on_write
-		autocmd BufWritePost * call CleanUp()
+		autocmd BufWritePre * call CleanUp()
 	endif
 elseif has('python3')
     pyfile3 scavenger.py3

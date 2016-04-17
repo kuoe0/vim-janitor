@@ -10,9 +10,10 @@
 
 """
 
+import md5
+import os.path
 import re
 import subprocess
-import os.path
 import sys
 import vim
 
@@ -82,15 +83,13 @@ def clean_up_trailing_spaces(*args):
 
 @restore_cursor_decorator
 def clean_up_trailing_spaces_only_added(*args):
-    cmd = 'git rev-parse --git-dir'
-    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-    ret = p.stdout.readline().strip()
-    if not ret.endswith('.git'):
-        raise Exception('Not in a git repo.')
 
-    filename = vim.eval("expand('%')")
-    cmd = 'git diff -U0 {0}'.format(filename)
-    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+    the_file = vim.eval("expand('%')")
+    tmp_file = os.path.join('/tmp', md5.md5(the_file).hexdigest())
+    vim.command('write! {0}'.format(tmp_file))
+
+    cmd = 'diff -u {0} {1}'.format(the_file, tmp_file)
+    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
 
     lineno = None
     lineno_to_clean_up = []
@@ -102,10 +101,14 @@ def clean_up_trailing_spaces_only_added(*args):
             lineno = int(add_info.split(',')[0])
             continue
 
+        if line.startswith('-'):
+            continue
+
         if lineno and line.startswith('+'):
             lineno_to_clean_up.append(lineno)
+
+        if lineno:
             lineno += 1
-            continue
 
     for lineno in lineno_to_clean_up:
         # zero-based line number
@@ -115,22 +118,8 @@ def clean_up_trailing_spaces_only_added(*args):
 
 @restore_cursor_decorator
 def clean_up(cursor_row, cursor_col):
-    scavenger_clean_trailing_spaces_only_changed = int(vim.eval('g:scavenger_clean_trailing_spaces_only_changed'))
-    debug('scavenger_clean_trailing_spaces_only_changed = {0}'.format(scavenger_clean_trailing_spaces_only_changed))
-    if scavenger_clean_trailing_spaces_only_changed != 0:
-        try:
-            clean_up_trailing_spaces_only_added()
-        except Exception as err:
-            print err.message
-            ret = ''
-            if scavenger_clean_trailing_spaces_only_changed == 2:
-                ret = 'y'
-            if scavenger_clean_trailing_spaces_only_changed == 3:
-                ret = 'n'
-            while (ret not in ['Y', 'y', 'N', 'n']):
-                ret = vim_input('Want to clean up ALL trailing spaces? [Y/n]')
-            if ret in ['Y', 'y']:
-                clean_up_trailing_spaces()
+    if vim.eval('g:scavenger_auto_clean_up_trailing_spaces_only_added') == '1':
+        clean_up_trailing_spaces_only_added()
     else:
         clean_up_trailing_spaces()
     clean_up_multiple_empty_lines()
