@@ -14,11 +14,20 @@ import vim
 import sys
 import re
 
+DEBUG = False
+
+def debug(msg):
+    if DEBUG:
+        print msg
+
 def restore_cursor_decorator(action):
-    current_cursor_position = vim.current.window.cursor
     def wrapper_function():
-        new_cursor_position = action(*current_cursor_position)
-        vim.current.window.cursor = new_cursor_position
+        cur_cursor = vim.current.window.cursor
+        debug("old: {0}".format(str(cur_cursor)))
+
+        new_cursor = action(*cur_cursor)
+        debug("new: {0}".format(str(new_cursor)))
+        vim.current.window.cursor = new_cursor
     return wrapper_function
 
 @restore_cursor_decorator
