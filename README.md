@@ -40,6 +40,10 @@ Delete all multiple empty lines.
 
 Delete all trailing spaces.
 
+### `:CleanUpTrailingSpacesOnlyAdded`
+
+Delete the trailing spaces on added lines.
+
 ### `:ScavengerHighlightAll`
 
 Highlight all empty lines and trailing spaces with red color.
@@ -64,8 +68,16 @@ Enable to highlight when open files or not .
 
 ### `g:scavenger_auto_clean_up_on_write`
 
-Enable to clear multiple empty lines and trailling spaces when save files or not.
+Enable to clear multiple empty lines and trailing spaces when save files or not.
 
 - default value: `0`
 - value `1`: Clear multiple empty lines and trailing spaces when save files automatically.
 - value `0`: Do not clear multiple empty lines and trailing spaces when save files automatically.
+
+### `g:scavenger_auto_clean_up_trailing_spaces_only_added`
+
+Enable to clear trailing spaces on the current changes. Work with `g:scavenger_auto_clean_up_on_write` setting.
+
+- default value: `0`
+- value `1`: Clear trailing spaces on added lines when save files automatically.
+- value `0`: Clear ALL trailing spaces when save files automatically.
