@@ -22,6 +22,16 @@ if !exists('g:scavenger_auto_clean_up_on_write')
 	let g:scavenger_auto_clean_up_on_write = 0
 endif
 
+if !exists('g:scavenger_auto_clean_trailing_spaces_only_changed')
+	let g:scavenger_auto_clean_trailing_spaces_only_changed = 1
+    " option | mean
+    " -------|-----
+    " 0      | Always clean up trailing spaces
+    " 1      | Only clean up trailing spaces on changed part in a git repo; for non-git repo, ask user.
+    " 2      | Like option 1. BUT for non-git repo, clean up all trailing spaces.
+    " 3      | Like option 1. BUT for non-git repo, DO NOT clean up any trailing space.
+endif
+
 if !exists('g:scavenger_is_highlight')
 	let g:scavenger_is_highlight = 0
 endif
@@ -34,6 +44,7 @@ if has('python')
     function! CleanUp()
         python from scavenger import clean_up
         python clean_up()
+        write
     endfunc
 
     function! CleanUpMultipleEmptyLines()
@@ -44,6 +55,11 @@ if has('python')
     function! CleanUpTrailingSpaces()
         python from scavenger import clean_up_trailing_spaces
         python clean_up_trailing_spaces()
+    endfunc
+
+    function! CleanUpTrailingSpacesOnlyAdded()
+        python from scavenger import clean_up_trailing_spaces_only_added
+        python clean_up_trailing_spaces_only_added()
     endfunc
 
     function! IsMultipleEmptyLinesExist()
@@ -63,7 +79,7 @@ if has('python')
     endfunc
 
 	if g:scavenger_auto_clean_up_on_write
-		autocmd BufWritePre * call CleanUp()
+		autocmd BufWritePost * call CleanUp()
 	endif
 elseif has('python3')
     pyfile3 scavenger.py3
@@ -100,9 +116,10 @@ endif
 "  Expose our commands to the user
 " --------------------------------
 
-command! CleanUp call CleanUp()
-command! CleanUpMultipleEmptyLines call CleanUpMultipleEmptyLines()
-command! CleanUpTrailingSpaces call CleanUpTrailingSpaces()
-command! ScavengerHighlightAll call ScavengerHighlightAll()
-command! ScavengerClearHighlight call ScavengerClearHighlight()
-command! ScavengerToggleHighlight call ScavengerToggleHighlight()
+command! CleanUp                        call CleanUp()
+command! CleanUpMultipleEmptyLines      call CleanUpMultipleEmptyLines()
+command! CleanUpTrailingSpaces          call CleanUpTrailingSpaces()
+command! CleanUpTrailingSpacesOnlyAdded call CleanUpTrailingSpacesOnlyAdded()
+command! ScavengerHighlightAll          call ScavengerHighlightAll()
+command! ScavengerClearHighlight        call ScavengerClearHighlight()
+command! ScavengerToggleHighlight       call ScavengerToggleHighlight()
