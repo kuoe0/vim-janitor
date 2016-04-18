@@ -40,9 +40,9 @@ if has('python')
         python clean_up()
     endfunc
 
-    function! CleanUpMultipleEmptyLines()
-        python from scavenger import clean_up_multiple_empty_lines
-        python clean_up_multiple_empty_lines()
+    function! CleanUpMultipleBlankLines()
+        python from scavenger import clean_up_multiple_blank_lines
+        python clean_up_multiple_blank_lines()
     endfunc
 
     function! CleanUpTrailingSpaces()
@@ -55,11 +55,11 @@ if has('python')
         python clean_up_trailing_spaces_only_added()
     endfunc
 
-    function! IsMultipleEmptyLinesExist()
-        python from scavenger import is_multiple_empty_lines_exist
-        python is_multiple_empty_lines_exist()
-        if l:multiple_empty_lines_exist
-            echo "There are multiple empty lines."
+    function! IsMultipleBlankLinesExist()
+        python from scavenger import is_multiple_blank_lines_exist
+        python is_multiple_blank_lines_exist()
+        if l:multiple_blank_lines_exist
+            echo "There are multiple blank lines."
         endif
     endfunc
 
@@ -80,9 +80,9 @@ endif
 
 function! ScavengerHighlightAll()
 	let g:scavenger_is_highlight = 1
-	" highlight the empty line more than one
-	highlight MultipleEmptyLines ctermbg=red guibg=red
-	call matchadd('MultipleEmptyLines', '\_^\_$\n\_^\_$\n')
+	" highlight the blank line more than one
+	highlight MultipleBlankLines ctermbg=red guibg=red
+	call matchadd('MultipleBlankLines', '\_^\_$\n\_^\_$\n')
 	" highlight trailing space
 	highlight TrailingSpaces ctermbg=red guibg=red
 	call matchadd('TrailingSpaces', '\s\+$')
@@ -110,7 +110,7 @@ endif
 " --------------------------------
 
 command! CleanUp                        call CleanUp()
-command! CleanUpMultipleEmptyLines      call CleanUpMultipleEmptyLines()
+command! CleanUpMultipleBlankLines      call CleanUpMultipleBlankLines()
 command! CleanUpTrailingSpaces          call CleanUpTrailingSpaces()
 command! CleanUpTrailingSpacesOnlyAdded call CleanUpTrailingSpacesOnlyAdded()
 command! ScavengerHighlightAll          call ScavengerHighlightAll()

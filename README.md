@@ -1,6 +1,6 @@
 # vim-scavenger
 
-Multiple empty lines and trailing white spaces cleaner for Vim.
+Multiple blank lines and trailing white spaces cleaner for Vim.
 
 Vim-scavenger supports both Vim and [Neovim](https://neovim.io/).
 
@@ -28,13 +28,13 @@ Install [neovim/python-client](https://github.com/neovim/python-client). Current
 
 ### `:CleanUp`
 
-Delete all multiple empty lines and trailing spaces.
+Delete all multiple blank lines and trailing spaces.
 
-### `:CleanUpMultipleEmptyLines`
+### `:CleanUpMultipleBlankLines`
 
-`:CleanUpMultipleEmptyLines`
+`:CleanUpMultipleBlankLines`
 
-Delete all multiple empty lines.
+Delete all multiple blank lines.
 
 ### `:CleanUpTrailingSpaces`
 
@@ -46,11 +46,11 @@ Delete the trailing spaces on added lines.
 
 ### `:ScavengerHighlightAll`
 
-Highlight all empty lines and trailing spaces with red color.
+Highlight all blank lines and trailing spaces with red color.
 
 ### `:ScavengerClearHighlight`
 
-Clear all highlight on all empty lines and trailing spaces.
+Clear all highlight on all blank lines and trailing spaces.
 
 ### `:ScavengerToggleHighlight`
 
@@ -63,16 +63,16 @@ Toggle highlight.
 Enable to highlight when open files or not .
 
 - default value: `1`
-- value `1`: Highlight all multiple empty lines and trailing spaces when open files.
-- value `0`: Do not highlight multiple empty lines and trailing spaces when open files.
+- value `1`: Highlight all multiple blank lines and trailing spaces when open files.
+- value `0`: Do not highlight multiple blank lines and trailing spaces when open files.
 
 ### `g:scavenger_auto_clean_up_on_write`
 
-Enable to clear multiple empty lines and trailing spaces when save files or not.
+Enable to clear multiple blank lines and trailing spaces when save files or not.
 
 - default value: `0`
-- value `1`: Clear multiple empty lines and trailing spaces when save files automatically.
-- value `0`: Do not clear multiple empty lines and trailing spaces when save files automatically.
+- value `1`: Clear multiple blank lines and trailing spaces when save files automatically.
+- value `0`: Do not clear multiple blank lines and trailing spaces when save files automatically.
 
 ### `g:scavenger_auto_clean_up_trailing_spaces_only_added`
 
