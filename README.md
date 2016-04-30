@@ -81,3 +81,22 @@ Enable to clear trailing spaces on the current changes. Work with `g:scavenger_a
 - default value: `0`
 - value `1`: Clear trailing spaces on added lines when save files automatically.
 - value `0`: Clear ALL trailing spaces when save files automatically.
+
+### `g:scavenger_exclude_on_trailing_space`
+
+An exclusive list of filetypes used to not clean up trailing spaces when call `CleanUp`.
+
+- default value: `[]`
+
+### `g:scavenger_exclude_on_blank_lines`
+
+An exclusive list of filetypes used to not clean up blank lines when call `CleanUp`. It is useful on Python for PEP8-compliant.
+
+- default value: `[]`
+
+For example:
+
+```
+# do not clean up multiple blank lines for PEP8-compliant
+let g:scavenger_exclude_on_blank_linse = ['python']
+```

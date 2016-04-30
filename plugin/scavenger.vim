@@ -26,6 +26,14 @@ if !exists('g:scavenger_auto_clean_up_trailing_spaces_only_added')
 	let g:scavenger_auto_clean_up_trailing_spaces_only_added = 0
 endif
 
+if !exists('g:scavenger_exclude_on_blank_lines')
+	let g:scavenger_exclude_on_blank_lines = []
+endif
+
+if !exists('g:scavenger_exclude_on_trailing_spaces')
+	let g:scavenger_exclude_on_trailing_spaces = []
+endif
+
 if !exists('g:scavenger_is_highlight')
 	let g:scavenger_is_highlight = 0
 endif

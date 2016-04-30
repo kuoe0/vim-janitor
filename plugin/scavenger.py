@@ -19,15 +19,18 @@ import vim
 
 DEBUG = False
 
+
 def debug(msg):
     if DEBUG:
         print msg
+
 
 def vim_input(message):
     vim.command('call inputsave()')
     vim.command("let user_input = input('" + message + ": ')")
     vim.command('call inputrestore()')
     return vim.eval('user_input')
+
 
 def restore_cursor_decorator(action):
     def wrapper_function():
@@ -39,6 +42,7 @@ def restore_cursor_decorator(action):
         debug("new: {0}".format(str(new_cursor)))
         vim.current.window.cursor = new_cursor
     return wrapper_function
+
 
 @restore_cursor_decorator
 def clean_up_multiple_blank_lines(cursor_row, cursor_col):
@@ -74,12 +78,14 @@ def clean_up_multiple_blank_lines(cursor_row, cursor_col):
 
     return (new_cursor_row, cursor_col)
 
+
 @restore_cursor_decorator
 def clean_up_trailing_spaces(*args):
     old_buffer = vim.current.buffer
     new_buffer = map(lambda line: line.rstrip(), old_buffer)
     vim.current.buffer[:] = new_buffer
     return args
+
 
 @restore_cursor_decorator
 def clean_up_trailing_spaces_only_added(*args):
@@ -89,11 +95,13 @@ def clean_up_trailing_spaces_only_added(*args):
     vim.command('write! {0}'.format(tmp_file))
 
     cmd = 'diff -u {0} {1}'.format(the_file, tmp_file)
-    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
+    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE,
+                         stderr=open(os.devnull, 'w'))
 
     lineno = None
     lineno_to_clean_up = []
-    header_pattern = re.compile(r'\@\@\s+-(?P<delete>[0-9,]+)\s+\+(?P<add>[0-9,+]+)\s\@\@')
+    header_pattern = re.compile(
+        r'\@\@\s+-(?P<delete>[0-9,]+)\s+\+(?P<add>[0-9,+]+)\s\@\@')
     for line in p.stdout.readlines():
         # enter a chunk
         if line.startswith('@@'):
@@ -116,14 +124,21 @@ def clean_up_trailing_spaces_only_added(*args):
         vim.current.buffer[lineno - 1] = line.rstrip()
     return args
 
+
 @restore_cursor_decorator
 def clean_up(cursor_row, cursor_col):
-    if vim.eval('g:scavenger_auto_clean_up_trailing_spaces_only_added') == '1':
-        clean_up_trailing_spaces_only_added()
-    else:
-        clean_up_trailing_spaces()
-    clean_up_multiple_blank_lines()
+    filetype = vim.eval('&ft')
+
+    if filetype not in vim.eval('g:scavenger_exclude_on_trailing_spaces'):
+        if vim.eval('g:scavenger_auto_clean_up_trailing_spaces_only_added') == '1':
+            clean_up_trailing_spaces_only_added()
+        else:
+            clean_up_trailing_spaces()
+
+    if filetype not in vim.eval('g:scavenger_exclude_on_blank_lines'):
+        clean_up_multiple_blank_lines()
     return vim.current.window.cursor
+
 
 def is_multiple_blank_lines_exist():
     buffer = vim.current.buffer
@@ -132,6 +147,7 @@ def is_multiple_blank_lines_exist():
             vim.command("let l:multiple_blank_lines_exist = 1")
             return
     vim.command("let l:multiple_blank_lines_exist = 0")
+
 
 def is_trailing_spaces_exist():
     buffer = vim.current.buffer
