@@ -44,6 +44,39 @@ def restore_cursor_decorator(action):
     return wrapper_function
 
 
+def get_added_lines():
+    the_file = vim.eval("expand('%')")
+    tmp_file = os.path.join('/tmp', md5.md5(the_file).hexdigest())
+    vim.command('write! {0}'.format(tmp_file))
+
+    cmd = 'diff -u {0} {1}'.format(the_file, tmp_file)
+    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE,
+                         stderr=open(os.devnull, 'w'))
+
+    lineno = None
+    lineno_to_clean_up = []
+    header_pattern = re.compile(
+        r'\@\@\s+-(?P<delete>[0-9,]+)\s+\+(?P<add>[0-9,+]+)\s\@\@')
+
+    for line in p.stdout.readlines():
+        # enter a chunk
+        if line.startswith('@@'):
+            add_info = header_pattern.search(line).group('add')
+            lineno = int(add_info.split(',')[0])
+            continue
+
+        if line.startswith('-'):
+            continue
+
+        if lineno and line.startswith('+'):
+            lineno_to_clean_up.append(lineno)
+
+        if lineno:
+            lineno += 1
+
+    return [x - 1 for x in lineno_to_clean_up]
+
+
 @restore_cursor_decorator
 def clean_up_multiple_blank_lines(cursor_row, cursor_col):
 
@@ -76,6 +109,34 @@ def clean_up_multiple_blank_lines(cursor_row, cursor_col):
     if new_cursor_row > len(new_buffer):
         new_cursor_row = len(new_buffer)
 
+    return (new_cursor_row, cursor_col)
+
+
+@restore_cursor_decorator
+def clean_up_multiple_blank_lines_only_added(cursor_row, cursor_col):
+
+    current_buffer = vim.current.buffer
+    added_lines_list = get_added_lines()
+    lines_to_delete = []
+
+    for lineno in added_lines_list:
+        if len(current_buffer[lineno]):
+            continue
+        # previous line is blank line
+        if lineno - 1 >= 0 and not len(current_buffer[lineno - 1]):
+            lines_to_delete.append(lineno)
+        # next line is blank line
+        elif lineno + 1 < len(current_buffer) and not len(current_buffer[lineno + 1]):
+            lines_to_delete.append(lineno)
+
+    new_buffer = [line for idx, line in enumerate(
+        current_buffer) if idx not in lines_to_delete]
+    vim.current.buffer[:] = new_buffer
+
+    # restore cursor position
+    removed_line_before_cursor_row = list(map(lambda lineno: lineno < cursor_row,
+                                              lines_to_delete)).count(True)
+    new_cursor_row = cursor_row - removed_line_before_cursor_row
     return (new_cursor_row, cursor_col)
 
 

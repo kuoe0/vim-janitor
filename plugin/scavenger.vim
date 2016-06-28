@@ -53,6 +53,11 @@ if has('python')
         python clean_up_multiple_blank_lines()
     endfunc
 
+    function! CleanUpMultipleBlankLinesOnlyAdded()
+        python from scavenger import clean_up_multiple_blank_lines_only_added
+        python clean_up_multiple_blank_lines_only_added()
+    endfunc
+
     function! CleanUpTrailingSpaces()
         python from scavenger import clean_up_trailing_spaces
         python clean_up_trailing_spaces()
@@ -117,10 +122,11 @@ endif
 "  Expose our commands to the user
 " --------------------------------
 
-command! CleanUp                        call CleanUp()
-command! CleanUpMultipleBlankLines      call CleanUpMultipleBlankLines()
-command! CleanUpTrailingSpaces          call CleanUpTrailingSpaces()
-command! CleanUpTrailingSpacesOnlyAdded call CleanUpTrailingSpacesOnlyAdded()
-command! ScavengerHighlightAll          call ScavengerHighlightAll()
-command! ScavengerClearHighlight        call ScavengerClearHighlight()
+command! CleanUp                            call CleanUp()
+command! CleanUpMultipleBlankLines          call CleanUpMultipleBlankLines()
+command! CleanUpMultipleBlankLinesOnlyAdded call CleanUpMultipleBlankLinesOnlyAdded()
+command! CleanUpTrailingSpaces              call CleanUpTrailingSpaces()
+command! CleanUpTrailingSpacesOnlyAdded     call CleanUpTrailingSpacesOnlyAdded()
+command! ScavengerHighlightAll              call ScavengerHighlightAll()
+command! ScavengerClearHighlight            call ScavengerClearHighlight()
 command! ScavengerToggleHighlight       call ScavengerToggleHighlight()
