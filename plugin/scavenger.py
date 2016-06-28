@@ -77,38 +77,43 @@ def get_added_lines():
     return [x - 1 for x in lineno_to_clean_up]
 
 
+def clean_up_multiple_blank_lines_at_begin_and_end(cursor_row):
+    if not len(vim.current.buffer[0]):
+        if 0 < cursor_row:
+            cursor_row -= 1
+        del vim.current.buffer[0]
+    if not len(vim.current.buffer[-1]):
+        if len(vim.current.buffer) - 1 < cursor_row:
+            cursor_row -= 1
+        del vim.current.buffer[-1]
+    return cursor_row
+
+
 @restore_cursor_decorator
 def clean_up_multiple_blank_lines(cursor_row, cursor_col):
 
-    old_buffer = vim.current.buffer
-    new_buffer = old_buffer[0:1]
-    removed_line_before_cursor_row = 0
+    current_buffer = vim.current.buffer
+    blank_lineno = [lineno for lineno, line in enumerate(
+        current_buffer) if not len(line)]
+    lines_to_delete = [blank_lineno[idx] for idx in range(
+        len(blank_lineno))[1:] if blank_lineno[idx] - 1 == blank_lineno[idx - 1]]
 
-    for idx in range(len(old_buffer))[1:]:
-        if len(old_buffer[idx]):
-            # not a blank line
-            new_buffer.append(old_buffer[idx])
-        elif not len(old_buffer[idx]) and old_buffer[idx] != old_buffer[idx - 1]:
-            # the first blank line
-            new_buffer.append(old_buffer[idx])
-        else:
-            if idx < cursor_row:
-                removed_line_before_cursor_row += 1
-
-    # Remove blank line at begin
-    if not len(new_buffer[0]):
-        new_buffer = new_buffer[1:]
-
-    # Remove blank line at end
-    if not len(new_buffer[-1]):
-        new_buffer = new_buffer[:-1]
-
+    # swap buffer
+    new_buffer = [line for idx, line in enumerate(
+        current_buffer) if idx not in lines_to_delete]
     vim.current.buffer[:] = new_buffer
 
+    # restore cursor position
+    removed_line_before_cursor_row = list(map(lambda lineno: lineno < cursor_row,
+                                              lines_to_delete)).count(True)
     new_cursor_row = cursor_row - removed_line_before_cursor_row
-    if new_cursor_row > len(new_buffer):
-        new_cursor_row = len(new_buffer)
-
+    # clean up blank lines at file begin and file end
+    new_cursor_row = clean_up_multiple_blank_lines_at_begin_and_end(
+        new_cursor_row)
+    # boundary check
+    new_cursor_row = 1 if new_cursor_row < 1 else new_cursor_row
+    new_cursor_row = len(vim.current.buffer) if new_cursor_row > len(
+        vim.current.buffer) else new_cursor_row
     return (new_cursor_row, cursor_col)
 
 
@@ -129,6 +134,7 @@ def clean_up_multiple_blank_lines_only_added(cursor_row, cursor_col):
         elif lineno + 1 < len(current_buffer) and not len(current_buffer[lineno + 1]):
             lines_to_delete.append(lineno)
 
+    # swap buffer
     new_buffer = [line for idx, line in enumerate(
         current_buffer) if idx not in lines_to_delete]
     vim.current.buffer[:] = new_buffer
@@ -136,7 +142,14 @@ def clean_up_multiple_blank_lines_only_added(cursor_row, cursor_col):
     # restore cursor position
     removed_line_before_cursor_row = list(map(lambda lineno: lineno < cursor_row,
                                               lines_to_delete)).count(True)
+    # clean up blank lines at file begin and file end
     new_cursor_row = cursor_row - removed_line_before_cursor_row
+    new_cursor_row = clean_up_multiple_blank_lines_at_begin_and_end(
+        new_cursor_row)
+    # boundary check
+    new_cursor_row = 1 if new_cursor_row < 1 else new_cursor_row
+    new_cursor_row = len(vim.current.buffer) if new_cursor_row > len(
+        vim.current.buffer) else new_cursor_row
     return (new_cursor_row, cursor_col)
 
 
@@ -151,38 +164,12 @@ def clean_up_trailing_spaces(*args):
 @restore_cursor_decorator
 def clean_up_trailing_spaces_only_added(*args):
 
-    the_file = vim.eval("expand('%')")
-    tmp_file = os.path.join('/tmp', md5.md5(the_file).hexdigest())
-    vim.command('write! {0}'.format(tmp_file))
+    added_lines_list = get_added_lines()
 
-    cmd = 'diff -u {0} {1}'.format(the_file, tmp_file)
-    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE,
-                         stderr=open(os.devnull, 'w'))
+    for lineno in added_lines_list:
+        line = vim.current.buffer[lineno]
+        vim.current.buffer[lineno] = line.rstrip()
 
-    lineno = None
-    lineno_to_clean_up = []
-    header_pattern = re.compile(
-        r'\@\@\s+-(?P<delete>[0-9,]+)\s+\+(?P<add>[0-9,+]+)\s\@\@')
-    for line in p.stdout.readlines():
-        # enter a chunk
-        if line.startswith('@@'):
-            add_info = header_pattern.search(line).group('add')
-            lineno = int(add_info.split(',')[0])
-            continue
-
-        if line.startswith('-'):
-            continue
-
-        if lineno and line.startswith('+'):
-            lineno_to_clean_up.append(lineno)
-
-        if lineno:
-            lineno += 1
-
-    for lineno in lineno_to_clean_up:
-        # zero-based line number
-        line = vim.current.buffer[lineno - 1]
-        vim.current.buffer[lineno - 1] = line.rstrip()
     return args
 
 
