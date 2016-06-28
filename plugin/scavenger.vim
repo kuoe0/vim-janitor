@@ -22,8 +22,8 @@ if !exists('g:scavenger_auto_clean_up_on_write')
 	let g:scavenger_auto_clean_up_on_write = 0
 endif
 
-if !exists('g:scavenger_auto_clean_up_trailing_spaces_only_added')
-	let g:scavenger_auto_clean_up_trailing_spaces_only_added = 0
+if !exists('g:scavenger_auto_clean_up_only_added')
+	let g:scavenger_auto_clean_up_only_added = 0
 endif
 
 if !exists('g:scavenger_exclude_on_blank_lines')
