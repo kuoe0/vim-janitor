@@ -32,9 +32,11 @@ Delete all multiple blank lines and trailing spaces.
 
 ### `:CleanUpMultipleBlankLines`
 
-`:CleanUpMultipleBlankLines`
-
 Delete all multiple blank lines.
+
+### `:CleanUpMultipleBlankLinesOnlyAdded`
+
+Delete all multiple blank lines on added lines.
 
 ### `:CleanUpTrailingSpaces`
 
@@ -74,13 +76,13 @@ Enable to clear multiple blank lines and trailing spaces when save files or not.
 - value `1`: Clear multiple blank lines and trailing spaces when save files automatically.
 - value `0`: Do not clear multiple blank lines and trailing spaces when save files automatically.
 
-### `g:scavenger_auto_clean_up_trailing_spaces_only_added`
+### `g:scavenger_auto_clean_up_only_added`
 
-Enable to clear trailing spaces on the current changes. Work with `g:scavenger_auto_clean_up_on_write` setting.
+Enable to clear only on the current changes. Work with `g:scavenger_auto_clean_up_on_write` setting.
 
 - default value: `0`
-- value `1`: Clear trailing spaces on added lines when save files automatically.
-- value `0`: Clear ALL trailing spaces when save files automatically.
+- value `1`: Clear only on added lines when save files automatically.
+- value `0`: Clear ALL lines when save files automatically.
 
 ### `g:scavenger_exclude_on_trailing_space`
 
