@@ -70,9 +70,13 @@
 <a id="cleanupmultipleblanklines" class="anchor" href="#cleanupmultipleblanklines" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>:CleanUpMultipleBlankLines</code>
 </h3>
 
-<p><code>:CleanUpMultipleBlankLines</code></p>
-
 <p>Delete all multiple blank lines.</p>
+
+<h3>
+<a id="cleanupmultipleblanklinesonlyadded" class="anchor" href="#cleanupmultipleblanklinesonlyadded" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>:CleanUpMultipleBlankLinesOnlyAdded</code>
+</h3>
+
+<p>Delete all multiple blank lines on added lines.</p>
 
 <h3>
 <a id="cleanuptrailingspaces" class="anchor" href="#cleanuptrailingspaces" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>:CleanUpTrailingSpaces</code>
@@ -134,17 +138,45 @@
 </ul>
 
 <h3>
-<a id="gscavenger_auto_clean_up_trailing_spaces_only_added" class="anchor" href="#gscavenger_auto_clean_up_trailing_spaces_only_added" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>g:scavenger_auto_clean_up_trailing_spaces_only_added</code>
+<a id="gscavenger_auto_clean_up_only_added" class="anchor" href="#gscavenger_auto_clean_up_only_added" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>g:scavenger_auto_clean_up_only_added</code>
 </h3>
 
-<p>Enable to clear trailing spaces on the current changes. Work with <code>g:scavenger_auto_clean_up_on_write</code> setting.</p>
+<p>Enable to clear only on the current changes. Work with <code>g:scavenger_auto_clean_up_on_write</code> setting.</p>
 
 <ul>
 <li>default value: <code>0</code>
 </li>
-<li>value <code>1</code>: Clear trailing spaces on added lines when save files automatically.</li>
-<li>value <code>0</code>: Clear ALL trailing spaces when save files automatically.</li>
+<li>value <code>1</code>: Clear only on added lines when save files automatically.</li>
+<li>value <code>0</code>: Clear ALL lines when save files automatically.</li>
 </ul>
+
+<h3>
+<a id="gscavenger_exclude_on_trailing_space" class="anchor" href="#gscavenger_exclude_on_trailing_space" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>g:scavenger_exclude_on_trailing_space</code>
+</h3>
+
+<p>An exclusive list of filetypes used to not clean up trailing spaces when call <code>CleanUp</code>.</p>
+
+<ul>
+<li>default value: <code>[]</code>
+</li>
+</ul>
+
+<h3>
+<a id="gscavenger_exclude_on_blank_lines" class="anchor" href="#gscavenger_exclude_on_blank_lines" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>g:scavenger_exclude_on_blank_lines</code>
+</h3>
+
+<p>An exclusive list of filetypes used to not clean up blank lines when call <code>CleanUp</code>. It is useful on Python for PEP8-compliant.</p>
+
+<ul>
+<li>default value: <code>[]</code>
+</li>
+</ul>
+
+<p>For example:</p>
+
+<pre><code># do not clean up multiple blank lines for PEP8-compliant
+let g:scavenger_exclude_on_blank_linse = ['python']
+</code></pre>
       </section>
     </div>
 
