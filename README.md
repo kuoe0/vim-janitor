@@ -102,3 +102,7 @@ For example:
 # do not clean up multiple blank lines for PEP8-compliant
 let g:scavenger_exclude_on_blank_linse = ['python']
 ```
+
+## Warning
+
+- **Every time you save (write) the file, the redo history will be cleaned up!**
