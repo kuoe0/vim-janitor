@@ -1,4 +1,4 @@
-*vim-scavenger.txt*
+*vim-janitor.txt*
 
 Multiple empty lines and trailing white spaces cleaner for Vim.
 
@@ -11,27 +11,27 @@ Multiple empty lines and trailing white spaces cleaner for Vim.
                                                        (_____|
 
 ===============================================================================
-CONTENTS                                                        *vim-scavenger*
+CONTENTS                                                        *vim-janitor*
 
-    1. Intro ............................................ |vim-scavenger-intro|
-    2. Requirements .............................. |vim-scavenger-requirements|
-    3. Usage ............................................ |vim-scavenger-usage|
-    4. Licence ........................................ |vim-scavenger-licence|
+    1. Intro ............................................ |vim-janitor-intro|
+    2. Requirements .............................. |vim-janitor-requirements|
+    3. Usage ............................................ |vim-janitor-usage|
+    4. Licence ........................................ |vim-janitor-licence|
 ===============================================================================
-1. Intro                                                  *vim-scavenger-intro*
+1. Intro                                                  *vim-janitor-intro*
 
 Multiple empty lines and trailing white spaces cleaner for Vim.
 
-2. Requirements                                    *vim-scavenger-requirements*
+2. Requirements                                    *vim-janitor-requirements*
 
 - Vim with Python 2.x support
 - Neovim with Python-client (https://github.com/neovim/python-client)
 
-3. Usage                                                  *vim-scavenger-usage*
+3. Usage                                                  *vim-janitor-usage*
 
 To be continue...
 
-4. Licence                                              *vim-scavenger-licence*
+4. Licence                                              *vim-janitor-licence*
 
 The MIT License (MIT)
 

@@ -14,28 +14,28 @@ python sys.path.append(vim.eval('expand("<sfile>:h")'))
 " --------------------------------
 " Initial variables
 " --------------------------------
-if !exists('g:scavenger_enable_highlight')
-	let g:scavenger_enable_highlight = 1
+if !exists('g:janitor_enable_highlight')
+	let g:janitor_enable_highlight = 1
 endif
 
-if !exists('g:scavenger_auto_clean_up_on_write')
-	let g:scavenger_auto_clean_up_on_write = 0
+if !exists('g:janitor_auto_clean_up_on_write')
+	let g:janitor_auto_clean_up_on_write = 0
 endif
 
-if !exists('g:scavenger_auto_clean_up_only_added')
-	let g:scavenger_auto_clean_up_only_added = 0
+if !exists('g:janitor_auto_clean_up_only_added')
+	let g:janitor_auto_clean_up_only_added = 0
 endif
 
-if !exists('g:scavenger_exclude_on_blank_lines')
-	let g:scavenger_exclude_on_blank_lines = []
+if !exists('g:janitor_exclude_on_blank_lines')
+	let g:janitor_exclude_on_blank_lines = []
 endif
 
-if !exists('g:scavenger_exclude_on_trailing_spaces')
-	let g:scavenger_exclude_on_trailing_spaces = []
+if !exists('g:janitor_exclude_on_trailing_spaces')
+	let g:janitor_exclude_on_trailing_spaces = []
 endif
 
-if !exists('g:scavenger_is_highlight')
-	let g:scavenger_is_highlight = 0
+if !exists('g:janitor_is_highlight')
+	let g:janitor_is_highlight = 0
 endif
 
 " --------------------------------
@@ -44,32 +44,32 @@ endif
 if has('python')
 
     function! CleanUp()
-        python from scavenger import clean_up
+        python from janitor import clean_up
         python clean_up()
     endfunc
 
     function! CleanUpMultipleBlankLines()
-        python from scavenger import clean_up_multiple_blank_lines
+        python from janitor import clean_up_multiple_blank_lines
         python clean_up_multiple_blank_lines()
     endfunc
 
     function! CleanUpMultipleBlankLinesOnlyAdded()
-        python from scavenger import clean_up_multiple_blank_lines_only_added
+        python from janitor import clean_up_multiple_blank_lines_only_added
         python clean_up_multiple_blank_lines_only_added()
     endfunc
 
     function! CleanUpTrailingSpaces()
-        python from scavenger import clean_up_trailing_spaces
+        python from janitor import clean_up_trailing_spaces
         python clean_up_trailing_spaces()
     endfunc
 
     function! CleanUpTrailingSpacesOnlyAdded()
-        python from scavenger import clean_up_trailing_spaces_only_added
+        python from janitor import clean_up_trailing_spaces_only_added
         python clean_up_trailing_spaces_only_added()
     endfunc
 
     function! IsMultipleBlankLinesExist()
-        python from scavenger import is_multiple_blank_lines_exist
+        python from janitor import is_multiple_blank_lines_exist
         python is_multiple_blank_lines_exist()
         if l:multiple_blank_lines_exist
             echo "There are multiple blank lines."
@@ -77,22 +77,22 @@ if has('python')
     endfunc
 
     function! IsTrailingSpacesExist()
-        python from scavenger import is_trailing_spaces_exist
+        python from janitor import is_trailing_spaces_exist
         python is_trailing_spaces_exist()
         if l:trailing_spaces_exist
             echo "There are trailing spaces."
         endif
     endfunc
 
-	if g:scavenger_auto_clean_up_on_write
+	if g:janitor_auto_clean_up_on_write
 		autocmd BufWritePre * call CleanUp()
 	endif
 elseif has('python3')
-    pyfile3 scavenger.py3
+    pyfile3 janitor.py3
 endif
 
-function! ScavengerHighlightAll()
-	let g:scavenger_is_highlight = 1
+function! JanitorHighlightAll()
+	let g:janitor_is_highlight = 1
 	" highlight the blank line more than one
 	highlight MultipleBlankLines ctermbg=red guibg=red
 	call matchadd('MultipleBlankLines', '\_^\_$\n\_^\_$\n')
@@ -101,21 +101,21 @@ function! ScavengerHighlightAll()
 	call matchadd('TrailingSpaces', '\s\+$')
 endfunc
 
-function! ScavengerClearHighlight()
-	let g:scavenger_is_highlight = 0
+function! JanitorClearHighlight()
+	let g:janitor_is_highlight = 0
 	call clearmatches()
 endfunc
 
-function! ScavengerToggleHighlight()
-	if g:scavenger_is_highlight
-		call ScavengerClearHighlight()
+function! JanitorToggleHighlight()
+	if g:janitor_is_highlight
+		call JanitorClearHighlight()
 	else
-		call ScavengerHighlightAll()
+		call JanitorHighlightAll()
 	endif
 endfunc
 
-if g:scavenger_enable_highlight
-	call ScavengerHighlightAll()
+if g:janitor_enable_highlight
+	call JanitorHighlightAll()
 endif
 
 " --------------------------------
@@ -127,6 +127,6 @@ command! CleanUpMultipleBlankLines          call CleanUpMultipleBlankLines()
 command! CleanUpMultipleBlankLinesOnlyAdded call CleanUpMultipleBlankLinesOnlyAdded()
 command! CleanUpTrailingSpaces              call CleanUpTrailingSpaces()
 command! CleanUpTrailingSpacesOnlyAdded     call CleanUpTrailingSpacesOnlyAdded()
-command! ScavengerHighlightAll              call ScavengerHighlightAll()
-command! ScavengerClearHighlight            call ScavengerClearHighlight()
-command! ScavengerToggleHighlight       call ScavengerToggleHighlight()
+command! JanitorHighlightAll                call JanitorHighlightAll()
+command! JanitorClearHighlight              call JanitorClearHighlight()
+command! JanitorToggleHighlight             call JanitorToggleHighlight()
