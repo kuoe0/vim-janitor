@@ -177,14 +177,17 @@ def clean_up_trailing_spaces_only_added(*args):
 def clean_up(cursor_row, cursor_col):
     filetype = vim.eval('&ft')
 
-    if vim.eval('g:janitor_auto_clean_up_only_added') == '1':
+    if vim.eval('g:janitor_auto_clean_up_trailing_space_only_added') == '1':
         if filetype not in vim.eval('g:janitor_exclude_on_trailing_spaces'):
             clean_up_trailing_spaces_only_added()
-        if filetype not in vim.eval('g:janitor_exclude_on_blank_lines'):
-            clean_up_multiple_blank_lines_only_added()
-    else:
+    elif vim.eval('g:janitor_auto_clean_up_trailing_space') == '1':
         if filetype not in vim.eval('g:janitor_exclude_on_trailing_spaces'):
             clean_up_trailing_spaces()
+
+    if vim.eval('g:janitor_auto_clean_up_blank_lines_only_added') == '1':
+        if filetype not in vim.eval('g:janitor_exclude_on_blank_lines'):
+            clean_up_multiple_blank_lines_only_added()
+    elif vim.eval('g:janitor_auto_clean_up_blank_lines') == '1':
         if filetype not in vim.eval('g:janitor_exclude_on_blank_lines'):
             clean_up_multiple_blank_lines()
 

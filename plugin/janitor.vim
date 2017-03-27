@@ -22,8 +22,28 @@ if !exists('g:janitor_auto_clean_up_on_write')
 	let g:janitor_auto_clean_up_on_write = 0
 endif
 
+if !exists('g:janitor_auto_clean_up_trailing_space_only_added')
+	let g:janitor_auto_clean_up_trailing_space_only_added = 0
+endif
+
+if !exists('g:janitor_auto_clean_up_blank_lines_only_added')
+	let g:janitor_auto_clean_up_blank_lines_only_added=0
+endif
+
 if !exists('g:janitor_auto_clean_up_only_added')
 	let g:janitor_auto_clean_up_only_added = 0
+endif
+
+if !exists('g:janitor_auto_clean_up_trailing_space')
+	let g:janitor_auto_clean_up_trailing_space = 0
+endif
+
+if !exists('g:janitor_auto_clean_up_blank_lines')
+	let g:janitor_auto_clean_up_blank_lines = 0
+endif
+
+if !exists('g:janitor_auto_clean_up')
+	let g:janitor_auto_clean_up = 0
 endif
 
 if !exists('g:janitor_exclude_on_blank_lines')
@@ -36,6 +56,17 @@ endif
 
 if !exists('g:janitor_is_highlight')
 	let g:janitor_is_highlight = 0
+endif
+
+" If auto-clean-only-added is on, then so are these
+if (g:janitor_auto_clean_up_only_added == 1)
+	let g:janitor_auto_clean_up_trailing_space_only_added = 1
+	let g:janitor_auto_clean_up_blank_lines_only_added = 1
+endif
+" If auto-clean is on, then so are these
+if (g:janitor_auto_clean_up == 1)
+	let g:janitor_auto_clean_up_trailing_space = 1
+	let g:janitor_auto_clean_up_blank_lines = 1
 endif
 
 " --------------------------------
