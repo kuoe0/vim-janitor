@@ -77,12 +77,52 @@ Enable to clear multiple blank lines and trailing spaces when save files or not.
 - value `1`: Clear multiple blank lines and trailing spaces when save files automatically.
 - value `0`: Do not clear multiple blank lines and trailing spaces when save files automatically.
 
+### `g:janitor_auto_clean_up_trailing_space_only_added`
+
+Enable to clear only trailing whitespace on the current changes. Work with `g:janitor_auto_clean_up_on_write` setting.
+
+- default value: `0`
+- value `1`: Clear only trailing whitespace on added lines when save files automatically.
+- value `0`: Clear ALL lines when save files automatically.
+
+### `g:janitor_auto_clean_up_blank_lines_only_added`
+
+Enable to clear only blank lines on the current changes. Work with `g:janitor_auto_clean_up_on_write` setting.
+
+- default value: `0`
+- value `1`: Clear only blank lines on added lines when save files automatically.
+- value `0`: Clear ALL lines when save files automatically.
+
 ### `g:janitor_auto_clean_up_only_added`
 
 Enable to clear only on the current changes. Work with `g:janitor_auto_clean_up_on_write` setting.
 
 - default value: `0`
 - value `1`: Clear only on added lines when save files automatically.
+- value `0`: Clear ALL lines when save files automatically.
+
+### `g:janitor_auto_clean_up_trailing_space`
+
+Enable to clear all trailing whitespace. Work with `g:janitor_auto_clean_up_on_write` setting.
+
+- default value: `0`
+- value `1`: Clear all trailing whitespace when save files automatically.
+- value `0`: Clear ALL lines when save files automatically.
+
+### `g:janitor_auto_clean_up_blank_lines`
+
+Enable to clear all blank lines. Work with `g:janitor_auto_clean_up_on_write` setting.
+
+- default value: `0`
+- value `1`: Clear all blank lines when save files automatically.
+- value `0`: Clear ALL lines when save files automatically.
+
+### `g:janitor_auto_clean_up`
+
+Enable to clear all blank lines and trailing whitespace. Work with `g:janitor_auto_clean_up_on_write` setting.
+
+- default value: `0`
+- value `1`: Clear all blank lines and trailing whitespace when save files automatically.
 - value `0`: Clear ALL lines when save files automatically.
 
 ### `g:janitor_exclude_on_trailing_space`
