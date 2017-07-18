@@ -12,9 +12,11 @@
 
 import md5
 import os.path
+import platform
 import re
 import subprocess
 import sys
+import tempfile
 import vim
 
 DEBUG = False
@@ -46,12 +48,20 @@ def restore_cursor_decorator(action):
 
 def get_added_lines():
     the_file = vim.eval("expand('%')")
-    tmp_file = os.path.join('/tmp', md5.md5(the_file).hexdigest())
+    with tempfile.NamedTemporaryFile(delete=False) as f:
+        tmp_file = f.name
     vim.command('write! {0}'.format(tmp_file))
 
     cmd = 'diff -u {0} {1}'.format(the_file, tmp_file)
+    if platform.system() == 'Windows':
+        # hide command prompt
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    else:
+        startupinfo = None
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE,
-                         stderr=open(os.devnull, 'w'))
+                         stderr=open(os.devnull, 'w'),
+                         startupinfo=startupinfo)
 
     lineno = None
     lineno_to_clean_up = []
