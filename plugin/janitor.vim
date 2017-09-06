@@ -126,15 +126,16 @@ function! JanitorHighlightAll()
 	let g:janitor_is_highlight = 1
 	" highlight the blank line more than one
 	highlight MultipleBlankLines ctermbg=red guibg=red
-	call matchadd('MultipleBlankLines', '\_^\_$\n\_^\_$\n')
+	let g:match_id_multiple_blank_lines = matchadd('MultipleBlankLines', '\_^\_$\n\_^\_$\n')
 	" highlight trailing space
 	highlight TrailingSpaces ctermbg=red guibg=red
-	call matchadd('TrailingSpaces', '\s\+$')
+	let g:match_id_trailing_spaces = matchadd('TrailingSpaces', '\s\+$')
 endfunc
 
 function! JanitorClearHighlight()
 	let g:janitor_is_highlight = 0
-	call clearmatches()
+	call matchdelete(g:match_id_multiple_blank_lines)
+	call matchdelete(g:match_id_trailing_spaces)
 endfunc
 
 function! JanitorToggleHighlight()
