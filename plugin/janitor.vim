@@ -7,9 +7,15 @@
 " --------------------------------
 " Add our plugin to the path
 " --------------------------------
-python import sys
-python import vim
-python sys.path.append(vim.eval('expand("<sfile>:h")'))
+if has('python')
+	python import sys
+	python import vim
+	python sys.path.append(vim.eval('expand("<sfile>:h")'))
+elseif has('python3')
+	python3 import sys
+	python3 import vim
+	python3 sys.path.append(vim.eval('expand("<sfile>:h")'))
+endif
 
 " --------------------------------
 " Initial variables
@@ -72,54 +78,49 @@ endif
 " --------------------------------
 "  Function(s)
 " --------------------------------
-if has('python')
+function! CleanUp()
+	python from janitor import clean_up
+	python clean_up()
+endfunc
 
-    function! CleanUp()
-        python from janitor import clean_up
-        python clean_up()
-    endfunc
+function! CleanUpMultipleBlankLines()
+	python from janitor import clean_up_multiple_blank_lines
+	python clean_up_multiple_blank_lines()
+endfunc
 
-    function! CleanUpMultipleBlankLines()
-        python from janitor import clean_up_multiple_blank_lines
-        python clean_up_multiple_blank_lines()
-    endfunc
+function! CleanUpMultipleBlankLinesOnlyAdded()
+	python from janitor import clean_up_multiple_blank_lines_only_added
+	python clean_up_multiple_blank_lines_only_added()
+endfunc
 
-    function! CleanUpMultipleBlankLinesOnlyAdded()
-        python from janitor import clean_up_multiple_blank_lines_only_added
-        python clean_up_multiple_blank_lines_only_added()
-    endfunc
+function! CleanUpTrailingSpaces()
+	python from janitor import clean_up_trailing_spaces
+	python clean_up_trailing_spaces()
+endfunc
 
-    function! CleanUpTrailingSpaces()
-        python from janitor import clean_up_trailing_spaces
-        python clean_up_trailing_spaces()
-    endfunc
+function! CleanUpTrailingSpacesOnlyAdded()
+	python from janitor import clean_up_trailing_spaces_only_added
+	python clean_up_trailing_spaces_only_added()
+endfunc
 
-    function! CleanUpTrailingSpacesOnlyAdded()
-        python from janitor import clean_up_trailing_spaces_only_added
-        python clean_up_trailing_spaces_only_added()
-    endfunc
-
-    function! IsMultipleBlankLinesExist()
-        python from janitor import is_multiple_blank_lines_exist
-        python is_multiple_blank_lines_exist()
-        if l:multiple_blank_lines_exist
-            echo "There are multiple blank lines."
-        endif
-    endfunc
-
-    function! IsTrailingSpacesExist()
-        python from janitor import is_trailing_spaces_exist
-        python is_trailing_spaces_exist()
-        if l:trailing_spaces_exist
-            echo "There are trailing spaces."
-        endif
-    endfunc
-
-	if g:janitor_auto_clean_up_on_write
-		autocmd BufWritePre * call CleanUp()
+function! IsMultipleBlankLinesExist()
+	python from janitor import is_multiple_blank_lines_exist
+	python is_multiple_blank_lines_exist()
+	if l:multiple_blank_lines_exist
+		echo "There are multiple blank lines."
 	endif
-elseif has('python3')
-    pyfile3 janitor.py3
+endfunc
+
+function! IsTrailingSpacesExist()
+	python from janitor import is_trailing_spaces_exist
+	python is_trailing_spaces_exist()
+	if l:trailing_spaces_exist
+		echo "There are trailing spaces."
+	endif
+endfunc
+
+if g:janitor_auto_clean_up_on_write
+	autocmd BufWritePre * call CleanUp()
 endif
 
 function! JanitorHighlightAll()
