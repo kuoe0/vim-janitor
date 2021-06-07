@@ -9,12 +9,10 @@
 
 """
 
-import md5
 import os.path
 import platform
 import re
 import subprocess
-import sys
 import tempfile
 import vim
 
