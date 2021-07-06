@@ -59,13 +59,15 @@ def get_added_lines():
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE,
                          stderr=open(os.devnull, 'w'),
                          startupinfo=startupinfo)
+    output, _ = p.communicate()
+    output = output.decode('utf8')
 
     lineno = None
     lineno_to_clean_up = []
     header_pattern = re.compile(
         r'\@\@\s+-(?P<delete>[0-9,]+)\s+\+(?P<add>[0-9,+]+)\s\@\@')
 
-    for line in p.stdout.readlines():
+    for line in output.splitlines():
         # enter a chunk
         if line.startswith('@@'):
             add_info = header_pattern.search(line).group('add')
