@@ -5,20 +5,17 @@
 " Distributed under terms of the MIT license.
 
 " --------------------------------
-" Add our plugin to the path
+" Init
 " --------------------------------
-if has('python')
-	python import sys
-	python import vim
-	python sys.path.append(vim.eval('expand("<sfile>:h")'))
-elseif has('python3')
-	python3 import sys
-	python3 import vim
-	python3 sys.path.append(vim.eval('expand("<sfile>:h")'))
+" Add the python plugin to the path (both Python2 and Python3 supported)
+let script_path = expand('<sfile>:p:h') . '/janitor.py'
+if !has('python') && !has('python3')
+   finish
 endif
+execute (has('python3') ? 'py3file' : 'pyfile') script_path
 
 " --------------------------------
-" Initial variables
+" Variable (s)
 " --------------------------------
 if !exists('g:janitor_enable_highlight')
 	let g:janitor_enable_highlight = 1
@@ -79,41 +76,34 @@ endif
 "  Function(s)
 " --------------------------------
 function! CleanUp()
-	python from janitor import clean_up
-	python clean_up()
+	execute (has('python3') ? 'python3' : 'python') "clean_up()"
 endfunc
 
 function! CleanUpMultipleBlankLines()
-	python from janitor import clean_up_multiple_blank_lines
-	python clean_up_multiple_blank_lines()
+	execute (has('python3') ? 'python3' : 'python') "clean_up_multiple_blank_lines()"
 endfunc
 
 function! CleanUpMultipleBlankLinesOnlyAdded()
-	python from janitor import clean_up_multiple_blank_lines_only_added
-	python clean_up_multiple_blank_lines_only_added()
+	execute (has('python3') ? 'python3' : 'python') "clean_up_multiple_blank_lines_only_added()"
 endfunc
 
 function! CleanUpTrailingSpaces()
-	python from janitor import clean_up_trailing_spaces
-	python clean_up_trailing_spaces()
+	execute (has('python3') ? 'python3' : 'python') "clean_up_trailing_spaces()"
 endfunc
 
 function! CleanUpTrailingSpacesOnlyAdded()
-	python from janitor import clean_up_trailing_spaces_only_added
-	python clean_up_trailing_spaces_only_added()
+	execute (has('python3') ? 'python3' : 'python') "clean_up_trailing_spaces_only_added()"
 endfunc
 
 function! IsMultipleBlankLinesExist()
-	python from janitor import is_multiple_blank_lines_exist
-	python is_multiple_blank_lines_exist()
+	execute (has('python3') ? 'python3' : 'python') "is_multiple_blank_lines_exist()"
 	if l:multiple_blank_lines_exist
 		echo "There are multiple blank lines."
 	endif
 endfunc
 
 function! IsTrailingSpacesExist()
-	python from janitor import is_trailing_spaces_exist
-	python is_trailing_spaces_exist()
+	execute (has('python3') ? 'python3' : 'python') "is_trailing_spaces_exist()"
 	if l:trailing_spaces_exist
 		echo "There are trailing spaces."
 	endif
